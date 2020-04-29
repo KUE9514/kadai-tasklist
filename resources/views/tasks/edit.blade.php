@@ -15,7 +15,7 @@
                 
                 {!! Form::submit('更新', ['class' => 'btn btn-primary']) !!}
                 
-            <!! Form::close() !!}
+            {!! Form::close() !!}
         </div>
     </div>
 
