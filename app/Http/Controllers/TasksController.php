@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Task;
 
+use App\User;
+
 class TasksController extends Controller
 {
     /**
@@ -51,6 +53,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->status = $request->status;
         $task->content = $request->content;
+        $task->user_id = $request->user()->id;
         $task->save();
         
         return redirect('/');
@@ -64,7 +67,12 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        $task = Task::find($id);
+        $task = \App\Task::find($id);
+        
+        if (\Auth::id() === $task->user_id) {
+            
+        }
+        //$task = Task::find($id);
         
         return view('tasks.show', [
             'task' => $task,
@@ -95,15 +103,17 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'status' => 'required|max:10',
-            'content' => 'required|max:191',
+        $task = \App\Task::find($id);
+
+        if (\Auth::id() === $task->user_id) {
+            $this->validate($request, [
+                'status' => 'required|max:10',
+                'content' => 'required|max:191',
             ]);
-        $task = Task::find($id);
-        $task->status = $request->status;
-        $task->content = $request->content;
-        $task->save();
-        
+            $task->status = $request->status;
+            $task->content = $request->content;
+            $task->save();
+        }
         return redirect('/');
     }
 
@@ -115,8 +125,13 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = Task::find($id);
-        $task->delete();
+        $task = \App\Task::find($id);
+        
+        if (\Auth::id() === $task->user_id) {
+            $task->delete();
+        }
+        //$task = Task::find($id);
+        //$task->delete();
         
         return redirect('/');
     }

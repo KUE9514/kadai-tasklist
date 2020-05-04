@@ -2,7 +2,7 @@
 
 @section('content')
     @if (Auth::check())
-    
+        
         <h1>タスク一覧</h1>
         
         @if (count($tasks) > 0)
@@ -24,10 +24,9 @@
                     @endforeach
                 </tbody>
             </table>
-            
-            {!! link_to_route('tasks.create', 'タスクの追加', [], ['class' => 'btn btn-primary']) !!}
-            
         @endif
+        
+        {!! link_to_route('tasks.create', 'タスクの追加', [], ['class' => 'btn btn-primary']) !!}
     @else
         <div class="center jumbotron">
             <div class="text-center">
