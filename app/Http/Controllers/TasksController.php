@@ -67,14 +67,16 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        
         $task = Task::find($id);
-        
-        return view('tasks.show', [
+
+        if (\Auth::id() === $task->user_id) {
+           return view('tasks.show', [
             'task' => $task,
             ]);
+        }
+        return redirect('/');
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -85,9 +87,12 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         
+        if(\Auth::id() === $task->user_id) {
         return view('tasks.edit', [
             'task' => $task,
             ]);
+        }
+        return redirect('/');
     }
 
     /**
@@ -99,7 +104,7 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $task = \App\Task::find($id);
+        $task = Task::find($id);
 
         if (\Auth::id() === $task->user_id) {
             $this->validate($request, [
@@ -121,12 +126,11 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = \App\Task::find($id);
+        $task = Task::find($id);
         
         if (\Auth::id() === $task->user_id) {
             $task->delete();
         }
-  
         return redirect('/');
     }
 }

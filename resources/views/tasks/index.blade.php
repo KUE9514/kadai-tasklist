@@ -6,8 +6,7 @@
         <h1>タスク一覧</h1>
         
         @if (count($tasks) > 0)
-        
-            <table class="table table-striped">
+             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>id</th>
@@ -28,7 +27,6 @@
                 </tbody>
             </table>
         @endif
-        
         {!! link_to_route('tasks.create', 'タスクの追加', [], ['class' => 'btn btn-primary']) !!}
     @else
         <div class="center jumbotron">
@@ -38,6 +36,4 @@
             </div>
         </div>
     @endif
-    
-
 @endsection
